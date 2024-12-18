@@ -9,9 +9,9 @@ import java.util.List;
 @Service
 public class AccountService {
 
-    private final AccountRepository accountRepository;
+    private final AccountRepository accountRepository; // Injecting the repository layer to access the database for Account operations.
 
-    @Autowired
+    @Autowired // Dependency Injection, AccountService class depends on AccountRepository
     public AccountService(AccountRepository accountRepository){
         this.accountRepository=accountRepository;
     }
