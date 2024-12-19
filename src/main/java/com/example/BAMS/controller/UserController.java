@@ -9,5 +9,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/users")
 public class UserController {
+    @Autowired
+    private UserService userService; // UserService'i kullanarak iş mantığına erişim sağlar
+
+    // Tüm kullanıcıları listeleyen endpoint
+    @GetMapping
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
+    }
 }
