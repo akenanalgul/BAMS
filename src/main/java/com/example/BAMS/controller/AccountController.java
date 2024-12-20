@@ -8,7 +8,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-
+@RequestMapping("/accounts")
 public class AccountController {
+
+    @Autowired
+    private AccountService accountService;
+
+
+    @GetMapping
+    public List<Account> getAllAccounts(){
+        return accountService.getAllAccount();
+    }
 
 }
