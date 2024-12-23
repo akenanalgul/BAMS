@@ -3,31 +3,58 @@ package com.example.BAMS.controller;
 import com.example.BAMS.model.Account;
 import com.example.BAMS.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/accounts") // It manages request to accounts endpoint
+@RequestMapping("/api/accounts") // It manages request to accounts endpoint
 public class AccountController {
-
+    private final AccountService accountService;
     @Autowired
-    private AccountService accountService; // Uses AccountService
-
-// The endpoint that lists all accounts
-    @GetMapping
-    public List<Account> getAllAccounts(){
-        return accountService.getAllAccount();
+    public AccountController(AccountService accountService){
+        this.accountService=accountService;
     }
+
+
+    @PostMapping
+    public ResponseEntity<Account> createAccount(@RequestBody Account account){
+        Account createdAccount = accountService.createAccount(account);
+        return ResponseEntity.ok(createdAccount);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Account> updateAccount(@PathVariable Long id,@RequestBody Account updatedAccount){
+        Account account = accountService.updateAccount(id,updatedAccount);
+        return ResponseEntity.ok(account);
+    }
+    @GetMapping
+    public ResponseEntity<List<Account>> getAllAccounts(){
+        List<Account> accounts=AccountService.getAllAccounts();
+        return ResponseEntity.ok(accounts);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @GetMapping("/{id}")
     public Account getAccountById(@PathVariable Long id){
         return accountService.getAccountById(id);
     }
 
-    @PostMapping
-    public Account createAccount(@RequestBody Account account){
-        return accountService.createAccount(account);
-    }
 
 }

@@ -3,40 +3,54 @@ package com.example.BAMS.controller;
 import com.example.BAMS.model.User;
 import com.example.BAMS.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
 
 @RestController // The class that manages REST API operations
-@RequestMapping("/users") // It manages requests to users endpoint
+@RequestMapping("/api/users") // It manages requests to users endpoint
 public class UserController {
+
+    private final UserService userService;
+
+
+
+
     @Autowired
-    private UserService userService; // Provides access to business logic using UserService
+    public UserController(UserService userService){
+        this.userService=userService;
+    }
 
+    @PostMapping // Create new user
+    public ResponseEntity<User> createUser(@RequestBody User user){
+        User createdUser = userService.createUser(user);
+        return ResponseEntity.ok(createdUser);
+    }
 
-
-    // The endpoint lists all users
-    @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    @GetMapping // Fetch all users
+    public ResponseEntity<List<User>> getAllUsers(){
+        List<User> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
+    }
+    @GetMapping("/{id}") // Fetch user by ID
+    public ResponseEntity<User> getUserById(@PathVariable Long id){
+        User user = userService.getUserById(id);
+        return ResponseEntity.ok(user);
+    }
+    @PutMapping("/{id}") // Update user
+    public ResponseEntity<User> updateUser(@PathVariable Long id,@RequestBody User updatedUser){
+        User user =userService.updateUser(id,updatedUser);
+        return ResponseEntity.ok(user);
+    }
+    @DeleteMapping("/{id}") // Delete user
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id){
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
     }
 
 
-
-    // The endpoint that fetches a spesific user by ID
-    @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id){
-        return userService.getUserById(id);
-    }
-
-
-    // The endpoint that adds a new user
-    @PostMapping
-
-    public User createUser(@RequestBody User user){
-        return userService.createUser(user);
-    }
 
 
 }
