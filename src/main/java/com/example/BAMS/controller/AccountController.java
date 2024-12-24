@@ -29,32 +29,38 @@ public class AccountController {
         Account account = accountService.updateAccount(id,updatedAccount);
         return ResponseEntity.ok(account);
     }
-    @GetMapping
-    public ResponseEntity<List<Account>> getAllAccounts(){
-        List<Account> accounts=AccountService.getAllAccounts();
+    @GetMapping // Fetch all users
+    public ResponseEntity<List<Account>> getAllAccount(){
+        List<Account> accounts=accountService.getAllAccount();
         return ResponseEntity.ok(accounts);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @GetMapping("/{id}")
-    public Account getAccountById(@PathVariable Long id){
-        return accountService.getAccountById(id);
+    public ResponseEntity<Account> getAccountById(@PathVariable Long id){
+        Account account = accountService.getAccountById(id);
+        return ResponseEntity.ok(account);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAccount(@PathVariable Long id){
+        accountService.deleteAccount(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
