@@ -28,6 +28,10 @@ public class UserController {
         User createdUser = userService.createUser(user);
         return ResponseEntity.ok(createdUser);
     }
+    @GetMapping("/test")
+    public ResponseEntity<String> getTest(){
+        return ResponseEntity.ok("test");
+    }
 
     @GetMapping // Fetch all users
     public ResponseEntity<List<User>> getAllUsers(){

@@ -14,26 +14,28 @@ public class Account {
     @Column(name = "balance", nullable = false)
     private Double balance;
 
-    @ManyToMany
-    @JoinColumn(name = "user_id",nullable = false)
+    @OneToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public Long getId(){
+    public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
 
 
-    public Double getBalance(){
+    public Double getBalance() {
         return balance;
     }
+
     public void setBalance(Double balance) {
         this.balance = balance;
     }
 
-    public User getUserId(){
+    public User getUserId() {
         return user;
     }
 
