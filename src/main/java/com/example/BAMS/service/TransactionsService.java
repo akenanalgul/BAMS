@@ -1,5 +1,6 @@
 package com.example.BAMS.service;
 
+import com.example.BAMS.model.Account;
 import com.example.BAMS.model.Transactions;
 import com.example.BAMS.repository.TransactionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,21 @@ public class TransactionsService {
         public Transactions getTransactionById(Long id){
             return transactionsRepository.findById(id).orElseThrow(()->new RuntimeException("Transaction not found!"));
         }
-        public void deleteTransaction(Long id){
-            transactionsRepository.deleteById(id);
-        }
+    public Transactions updateTransaction(Long id, Transactions updatedTransactions) {
+        // Mevcut işlemi kontrol et
+       // Transactions existingTransactions = transactionsRepository.findById(id);
+        Transactions existingTransactions = getTransactionById(id);
+        // Güncellenmiş değerleri mevcut işlemle değiştir
+        existingTransactions.setTransactionType(updatedTransactions.getTransactionType());
+        existingTransactions.setAmount(updatedTransactions.getAmount());
+        existingTransactions.setAccount(updatedTransactions.getAccount());
+
+        // Güncellenmiş işlemi kaydet
+        return transactionsRepository.save(existingTransactions);
+    }
+    public void deleteTransactions(Long id){
+    transactionsRepository.deleteById(id);
+    }
 
 
 
