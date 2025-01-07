@@ -1,5 +1,6 @@
 package com.example.BAMS.service;
 
+import com.example.BAMS.dto.UserDTO;
 import com.example.BAMS.model.User;
 import com.example.BAMS.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +15,25 @@ public class UserService {
     public UserService(UserRepository userRepository){
             this.userRepository= userRepository;
         }
-    public User createUser(User user){
+
+    public UserDTO getUserById(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found!"));
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setName(user.getName());
+        userDTO.setEmail(user.getEmail());
+
+        return userDTO;
+    }
+
+        public User createUser(User user){
             return userRepository.save(user);
     }
     public List<User> getAllUsers(){
             return userRepository.findAll();
     }
-    public User getUserById(Long id){
-            return userRepository.findById(id).orElseThrow(()->new RuntimeException("User not found!"));
-    }
+
     public User updateUser(Long id,User updatedUser){
             User existingUser = getUserById(id);
             existingUser.setName(updatedUser.getName());

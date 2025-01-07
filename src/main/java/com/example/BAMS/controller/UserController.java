@@ -1,5 +1,6 @@
 package com.example.BAMS.controller;
 
+import com.example.BAMS.dto.UserDTO;
 import com.example.BAMS.model.User;
 import com.example.BAMS.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,24 @@ public class UserController {
     private final UserService userService;
 
 
-
-
     @Autowired
     public UserController(UserService userService){
         this.userService=userService;
+    }
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
+        // User modelini al
+        User user = userService.getUserById(id);
+
+        // User -> UserDTO dönüşümü
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setName(user.getName());
+        userDTO.setEmail(user.getEmail());
+
+        return ResponseEntity.ok(userDTO);
     }
 
     @PostMapping // Create new user
@@ -38,11 +52,7 @@ public class UserController {
         List<User> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
-    @GetMapping("/{id}") // Fetch user by ID
-    public ResponseEntity<User> getUserById(@PathVariable Long id){
-        User user = userService.getUserById(id);
-        return ResponseEntity.ok(user);
-    }
+
     @PutMapping("/{id}") // Update user
     public ResponseEntity<User> updateUser(@PathVariable Long id,@RequestBody User updatedUser){
         User user =userService.updateUser(id,updatedUser);
