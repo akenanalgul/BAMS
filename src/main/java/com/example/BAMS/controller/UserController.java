@@ -25,17 +25,10 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
-        // User modelini al
-        User user = userService.getUserById(id);
-
-        // User -> UserDTO dönüşümü
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(user.getId());
-        userDTO.setName(user.getName());
-        userDTO.setEmail(user.getEmail());
-
+        UserDTO userDTO = userService.getUserById(id); // DTO dönüşümü servis katmanında
         return ResponseEntity.ok(userDTO);
     }
+
 
     @PostMapping // Create new user
     public ResponseEntity<User> createUser(@RequestBody User user){
