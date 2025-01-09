@@ -1,5 +1,7 @@
 package com.example.BAMS.service;
 
+import com.example.BAMS.dto.TransactionsDTO;
+import com.example.BAMS.model.User;
 import com.example.BAMS.model.Account;
 import com.example.BAMS.model.Transactions;
 import com.example.BAMS.repository.TransactionsRepository;
@@ -23,8 +25,17 @@ public class TransactionsService {
         public List<Transactions> getAllTransactions(){
             return transactionsRepository.findAll();
         }
-        public Transactions getTransactionById(Long id){
-            return transactionsRepository.findById(id).orElseThrow(()->new RuntimeException("Transaction not found!"));
+        public TransactionsDTO getTransactionById(Long id){
+            Transactions transactions= transactionsRepository.findById(id).orElseThrow(()->new RuntimeException("Transaction not found!"));
+
+            TransactionsDTO transactionsDTO = new TransactionsDTO();
+            transactionsDTO.setId(transactions.getId());
+            transactionsDTO.setAccount(transactions.getAccount());
+            transactionsDTO.setTransactionType(transactions.getTransactionType());
+            transactionsDTO.setAmount(transactions.getAmount());
+            transactionsDTO.setCreatedAt(transactions.getCreatedAt());
+
+            return transactionsDTO;
         }
     public Transactions updateTransaction(Long id, Transactions updatedTransactions) {
         // Mevcut işlemi kontrol et

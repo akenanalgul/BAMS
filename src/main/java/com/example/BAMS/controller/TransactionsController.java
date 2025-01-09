@@ -1,6 +1,7 @@
 package com.example.BAMS.controller;
 
 
+import com.example.BAMS.dto.TransactionsDTO;
 import com.example.BAMS.model.Transactions;
 import com.example.BAMS.service.TransactionsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +30,11 @@ public class TransactionsController {
         return ResponseEntity.ok(transactions);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Transactions> getTransactionsById(@PathVariable Long id){
-        Transactions transactions = transactionsService.getTransactionById(id);
-        return ResponseEntity.ok(transactions);
+    public ResponseEntity<TransactionsDTO> getTransactionById(@PathVariable Long id) {
+        TransactionsDTO transactionDTO = transactionsService.getTransactionById(id);
+        return ResponseEntity.ok(transactionDTO);
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<Transactions> updateTransaction(
             @PathVariable Long id,
