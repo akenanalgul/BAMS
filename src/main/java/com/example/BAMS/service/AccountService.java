@@ -1,4 +1,5 @@
 package com.example.BAMS.service;
+import com.example.BAMS.dto.AccountDTO;
 import com.example.BAMS.model.Account;
 import com.example.BAMS.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +22,21 @@ public class AccountService {
     public List<Account> getAllAccount(){
         return accountRepository.findAll();
     }
-    public Account getAccountById(Long id){
-        return accountRepository.findById(id).orElseThrow(()->new RuntimeException("Account not found!"));
+    public AccountDTO getAccountById(Long id){
+        Account account = accountRepository.findById(id).orElseThrow(()->new RuntimeException("Account not found!"));
+
+        AccountDTO accountDTO = new AccountDTO();
+        accountDTO.setId(account.getId());
+        accountDTO.setAccountNumber(account.getAccountNumber());
+        accountDTO.setBalance(account.getBalance());
+        accountDTO.setUser(account.getUser());
+
+        return accountDTO;
     }
     public Account updateAccount(Long id,Account updatedAccount){
         Account existingAccount = getAccountById(id);
         existingAccount.setBalance(updatedAccount.getBalance());
-        existingAccount.setUserId(updatedAccount.getUserId());
+        existingAccount.setUser(updatedAccount.getUser());
         return accountRepository.save(existingAccount);
     }
 

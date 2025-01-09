@@ -1,5 +1,6 @@
 package com.example.BAMS.controller;
 
+import com.example.BAMS.dto.AccountDTO;
 import com.example.BAMS.model.Account;
 import com.example.BAMS.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +37,9 @@ public class AccountController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Account> getAccountById(@PathVariable Long id){
-        Account account = accountService.getAccountById(id);
-        return ResponseEntity.ok(account);
+    public ResponseEntity<AccountDTO> getAccountById(@PathVariable Long id){
+        AccountDTO accountDTO = accountService.getAccountById(id);
+        return ResponseEntity.ok(accountDTO);
     }
 
     @DeleteMapping("/{id}")
