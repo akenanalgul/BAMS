@@ -1,8 +1,6 @@
 package com.example.BAMS.service;
 
 import com.example.BAMS.dto.TransactionsDTO;
-import com.example.BAMS.model.User;
-import com.example.BAMS.model.Account;
 import com.example.BAMS.model.Transactions;
 import com.example.BAMS.repository.TransactionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,13 +36,12 @@ public class TransactionsService {
             return transactionsDTO;
         }
     public Transactions updateTransaction(Long id, Transactions updatedTransactions) {
-        // Mevcut işlemi kontrol et
-       // Transactions existingTransactions = transactionsRepository.findById(id);
         Transactions existingTransactions = getTransactionById(id);
         // Güncellenmiş değerleri mevcut işlemle değiştir
         existingTransactions.setTransactionType(updatedTransactions.getTransactionType());
         existingTransactions.setAmount(updatedTransactions.getAmount());
         existingTransactions.setAccount(updatedTransactions.getAccount());
+        existingTransactions.setCreatedAt(updatedTransactions.getCreatedAt());
 
         // Güncellenmiş işlemi kaydet
         return transactionsRepository.save(existingTransactions);

@@ -5,7 +5,7 @@ import com.example.BAMS.model.Transactions;
 
 import java.time.LocalDateTime;
 
-public class TransactionsDTO {
+public class TransactionsDTO extends Transactions {
 
     private Long id;
     private Account account;

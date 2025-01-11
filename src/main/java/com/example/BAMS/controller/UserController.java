@@ -3,6 +3,8 @@ package com.example.BAMS.controller;
 import com.example.BAMS.dto.UserDTO;
 import com.example.BAMS.model.User;
 import com.example.BAMS.service.UserService;
+import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,13 @@ public class UserController {
     @Autowired
     public UserController(UserService userService){
         this.userService=userService;
+    }
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    public UserDTO convertToDTO(User user) {
+        return modelMapper.map(user, UserDTO.class);
     }
 
 
@@ -56,6 +65,7 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
+
 
 
 
