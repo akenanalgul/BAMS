@@ -24,25 +24,20 @@ public class UserController {
         this.userService=userService;
     }
 
-    @Autowired
-    private ModelMapper modelMapper;
-
-    public UserDTO convertToDTO(User user) {
-        return modelMapper.map(user, UserDTO.class);
-    }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
-        UserDTO userDTO = userService.getUserById(id); // DTO dönüşümü servis katmanında
+        User user = userService.getUserById(id);
+        UserDTO userDTO = userService.convertToDTO(user); // DTO dönüşümü servis katmanında
         return ResponseEntity.ok(userDTO);
     }
 
 
     @PostMapping // Create new user
-    public ResponseEntity<User> createUser(@RequestBody User user){
-        User createdUser = userService.createUser(user);
-        return ResponseEntity.ok(createdUser);
+    public ResponseEntity<User> createUser(@Valid @RequestBody UserDTO userDTO){
+        User user = userService.createUser(userDTO);
+        UserDTO responseDTO = userService.convertToDTO(user);
+        return ResponseEntity.ok(userDTO);
     }
     @GetMapping("/test")
     public ResponseEntity<String> getTest(){

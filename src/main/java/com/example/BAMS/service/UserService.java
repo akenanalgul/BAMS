@@ -3,6 +3,7 @@ package com.example.BAMS.service;
 import com.example.BAMS.dto.UserDTO;
 import com.example.BAMS.model.User;
 import com.example.BAMS.repository.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,24 +11,25 @@ import java.util.List;
 @Service
 public class UserService {
         private final UserRepository userRepository;
+        private final ModelMapper modelMapper;
 
         @Autowired
-    public UserService(UserRepository userRepository){
+    public UserService(UserRepository userRepository, ModelMapper modelMapper){
+
             this.userRepository= userRepository;
+            this.modelMapper=modelMapper;
         }
 
-    public UserDTO getUserById(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found!"));
-
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(user.getId());
-        userDTO.setName(user.getName());
-        userDTO.setEmail(user.getEmail());
-
-        return userDTO;
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found!"));
     }
 
-        public User createUser(User user){
+    public UserDTO convertToDTO(User user) {
+       return modelMapper.map(user,UserDTO.class);
+    }
+
+        public User createUser(UserDTO userDTO){
+            User user =modelMapper.map(userDTO,User.class);
             return userRepository.save(user);
     }
     public List<User> getAllUsers(){
