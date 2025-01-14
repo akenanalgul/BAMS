@@ -3,6 +3,7 @@ package com.example.BAMS.controller;
 import com.example.BAMS.dto.AccountDTO;
 import com.example.BAMS.model.Account;
 import com.example.BAMS.service.AccountService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +21,10 @@ public class AccountController {
 
 
     @PostMapping
-    public ResponseEntity<Account> createAccount(@RequestBody Account account){
-        Account createdAccount = accountService.createAccount(account);
-        return ResponseEntity.ok(createdAccount);
+    public ResponseEntity<Account> createAccount(@Valid @RequestBody AccountDTO accountDTO){
+        Account account= accountService.createAccount(accountDTO);
+        AccountDTO createdAccount = accountService.convertToDTO(account);
+        return ResponseEntity.ok(accountDTO);
     }
 
     @PutMapping("/{id}")
@@ -38,7 +40,8 @@ public class AccountController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AccountDTO> getAccountById(@PathVariable Long id){
-        AccountDTO accountDTO = accountService.getAccountById(id);
+        Account account = accountService.getAccountById(id);
+        AccountDTO accountDTO = accountService.convertToDTO(account);
         return ResponseEntity.ok(accountDTO);
     }
 

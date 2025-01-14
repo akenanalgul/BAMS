@@ -1,7 +1,10 @@
 package com.example.BAMS.service;
 import com.example.BAMS.dto.AccountDTO;
+import com.example.BAMS.dto.UserDTO;
 import com.example.BAMS.model.Account;
+import com.example.BAMS.model.User;
 import com.example.BAMS.repository.AccountRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,27 +14,25 @@ import java.util.List;
 public class AccountService {
 
     private final AccountRepository accountRepository; // Injecting the repository layer to access the database for Account operations.
-
+    private final ModelMapper modelMapper;
     @Autowired // Dependency Injection, AccountService class depends on AccountRepository
-    public AccountService(AccountRepository accountRepository){
+    public AccountService(AccountRepository accountRepository,ModelMapper modelMapper){
         this.accountRepository=accountRepository;
+        this.modelMapper=modelMapper;
     }
-    public Account createAccount(Account account){
+    public Account createAccount(AccountDTO accountDTO){
+        Account account = modelMapper.map(accountDTO,Account.class);
         return accountRepository.save(account);
     }
     public List<Account> getAllAccount(){
         return accountRepository.findAll();
     }
-    public AccountDTO getAccountById(Long id){
-        Account account = accountRepository.findById(id).orElseThrow(()->new RuntimeException("Account not found!"));
+    public Account getAccountById(Long id){
+          return accountRepository.findById(id).orElseThrow(()->new RuntimeException("Account not found!"));
 
-        AccountDTO accountDTO = new AccountDTO();
-        accountDTO.setId(account.getId());
-        accountDTO.setAccountNumber(account.getAccountNumber());
-        accountDTO.setBalance(account.getBalance());
-        accountDTO.setUser(account.getUser());
-
-        return accountDTO;
+    }
+    public AccountDTO convertToDTO(Account account) {
+        return modelMapper.map(account,AccountDTO.class);
     }
     public Account updateAccount(Long id,Account updatedAccount){
         Account existingAccount = getAccountById(id);

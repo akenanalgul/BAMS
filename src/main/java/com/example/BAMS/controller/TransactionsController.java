@@ -4,6 +4,7 @@ package com.example.BAMS.controller;
 import com.example.BAMS.dto.TransactionsDTO;
 import com.example.BAMS.model.Transactions;
 import com.example.BAMS.service.TransactionsService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +21,10 @@ public class TransactionsController {
 
 
     @PostMapping
-    public ResponseEntity<Transactions> createTransactions(@RequestBody Transactions transactions){
-        Transactions createdTransactions=transactionsService.createTransactions(transactions);
-        return ResponseEntity.ok(createdTransactions);
+    public ResponseEntity<Transactions> createTransactions(@Valid @RequestBody TransactionsDTO transactionsDTO){
+        Transactions transactions = transactionsService.createTransactions(transactionsDTO);
+        TransactionsDTO createdTransactions=transactionsService.convertToDTO(transactions);
+        return ResponseEntity.ok(transactionsDTO);
     }
     @GetMapping
     public ResponseEntity<List<Transactions>> getAllTransactions(){
@@ -31,7 +33,8 @@ public class TransactionsController {
     }
     @GetMapping("/{id}")
     public ResponseEntity<TransactionsDTO> getTransactionById(@PathVariable Long id) {
-        TransactionsDTO transactionDTO = transactionsService.getTransactionById(id);
+        Transactions transactions= transactionsService.getTransactionById(id);
+        TransactionsDTO transactionDTO = transactionsService.convertToDTO(transactions);
         return ResponseEntity.ok(transactionDTO);
     }
 

@@ -36,7 +36,7 @@ public class UserController {
     @PostMapping // Create new user
     public ResponseEntity<User> createUser(@Valid @RequestBody UserDTO userDTO){
         User user = userService.createUser(userDTO);
-        UserDTO responseDTO = userService.convertToDTO(user);
+        UserDTO createdUser = userService.convertToDTO(user);
         return ResponseEntity.ok(userDTO);
     }
     @GetMapping("/test")

@@ -1,8 +1,11 @@
 package com.example.BAMS.service;
 
+import com.example.BAMS.dto.AccountDTO;
 import com.example.BAMS.dto.TransactionsDTO;
+import com.example.BAMS.model.Account;
 import com.example.BAMS.model.Transactions;
 import com.example.BAMS.repository.TransactionsRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,29 +14,26 @@ import java.util.List;
 
 @Service
 public class TransactionsService {
-        public final TransactionsRepository transactionsRepository;
+        private final TransactionsRepository transactionsRepository;
+        private final ModelMapper modelMapper;
+
+
 
 @Autowired
-        public TransactionsService(TransactionsRepository transactionsRepository){
+        public TransactionsService(TransactionsRepository transactionsRepository,ModelMapper modelMapper){
             this.transactionsRepository = transactionsRepository;
+            this.modelMapper=modelMapper;
 }
-        public Transactions createTransactions(Transactions transactions){
+        public Transactions createTransactions(TransactionsDTO transactionsDTO){
+            Transactions transactions=modelMapper.map(transactionsDTO,Transactions.class);
             return transactionsRepository.save(transactions);
         }
         public List<Transactions> getAllTransactions(){
             return transactionsRepository.findAll();
         }
-        public TransactionsDTO getTransactionById(Long id){
-            Transactions transactions= transactionsRepository.findById(id).orElseThrow(()->new RuntimeException("Transaction not found!"));
+        public Transactions getTransactionById(Long id){
+            return transactionsRepository.findById(id).orElseThrow(()->new RuntimeException("Transaction not found!"));
 
-            TransactionsDTO transactionsDTO = new TransactionsDTO();
-            transactionsDTO.setId(transactions.getId());
-            transactionsDTO.setAccount(transactions.getAccount());
-            transactionsDTO.setTransactionType(transactions.getTransactionType());
-            transactionsDTO.setAmount(transactions.getAmount());
-            transactionsDTO.setCreatedAt(transactions.getCreatedAt());
-
-            return transactionsDTO;
         }
     public Transactions updateTransaction(Long id, Transactions updatedTransactions) {
         Transactions existingTransactions = getTransactionById(id);
@@ -48,6 +48,9 @@ public class TransactionsService {
     }
     public void deleteTransactions(Long id){
     transactionsRepository.deleteById(id);
+    }
+    public TransactionsDTO convertToDTO(Transactions transactions) {
+        return modelMapper.map(transactions,TransactionsDTO.class);
     }
 
 
