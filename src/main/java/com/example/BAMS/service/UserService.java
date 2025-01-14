@@ -1,6 +1,7 @@
 package com.example.BAMS.service;
 
 import com.example.BAMS.dto.UserDTO;
+import com.example.BAMS.exception.UserNotFoundException;
 import com.example.BAMS.model.User;
 import com.example.BAMS.repository.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -21,7 +22,7 @@ public class UserService {
         }
 
     public User getUserById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found!"));
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User with ID"+ id + "not found!"));
     }
 
     public UserDTO convertToDTO(User user) {
