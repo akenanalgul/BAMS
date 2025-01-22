@@ -34,10 +34,10 @@ public class UserController {
 
 
     @PostMapping // Create new user
-    public ResponseEntity<User> createUser(@Valid @RequestBody UserDTO userDTO){
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO){
         User user = userService.createUser(userDTO);
         UserDTO createdUser = userService.convertToDTO(user);
-        return ResponseEntity.ok(userDTO);
+        return ResponseEntity.ok(createdUser);
     }
     @GetMapping("/test")
     public ResponseEntity<String> getTest(){
