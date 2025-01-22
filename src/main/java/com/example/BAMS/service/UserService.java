@@ -13,24 +13,24 @@ import java.util.List;
 public class UserService {
         private final UserRepository userRepository;
         private final ModelMapper modelMapper;
-
-        @Autowired
-    public UserService(UserRepository userRepository, ModelMapper modelMapper){
+@Autowired
+public UserService(UserRepository userRepository, ModelMapper modelMapper){
 
             this.userRepository= userRepository;
             this.modelMapper=modelMapper;
-        }
+}
+    public UserDTO convertToDTO(User user) {
+        return modelMapper.map(user,UserDTO.class);
+    }
+    public User convertToEntity(UserDTO userDTO) {
+        return modelMapper.map(userDTO, User.class);
+    }
 
     public User getUserById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User with ID"+ id + "not found!"));
     }
-
-    public UserDTO convertToDTO(User user) {
-       return modelMapper.map(user,UserDTO.class);
-    }
-
         public User createUser(UserDTO userDTO){
-            User user =modelMapper.map(userDTO,User.class);
+            User user =convertToEntity(userDTO);
             return userRepository.save(user);
     }
     public List<User> getAllUsers(){
