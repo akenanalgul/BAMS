@@ -16,6 +16,8 @@ public class UserDTO {
     @Email(message = "Invalid email format")
     private String email;
 
+    private String password;
+
     private LocalDateTime createdAt;
 
     // Getter ve Setter
@@ -42,6 +44,9 @@ public class UserDTO {
     public void setEmail(String email) {
         this.email = email;
     }
+    public String getPassword(){return password;}
+    public void setPassword(String password){this.password=password;}
+
 
     public LocalDateTime getCreatedAt(){
         return createdAt;
