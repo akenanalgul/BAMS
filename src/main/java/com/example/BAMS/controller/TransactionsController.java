@@ -21,10 +21,10 @@ public class TransactionsController {
 
 
     @PostMapping
-    public ResponseEntity<Transactions> createTransactions(@Valid @RequestBody TransactionsDTO transactionsDTO){
+    public ResponseEntity<TransactionsDTO> createTransactions(@Valid @RequestBody TransactionsDTO transactionsDTO){
         Transactions transactions = transactionsService.createTransactions(transactionsDTO);
         TransactionsDTO createdTransactions=transactionsService.convertToDTO(transactions);
-        return ResponseEntity.ok(transactionsDTO);
+        return ResponseEntity.ok(createdTransactions);
     }
     @GetMapping
     public ResponseEntity<List<Transactions>> getAllTransactions(){
@@ -46,7 +46,11 @@ public class TransactionsController {
         Transactions updatedTransaction = transactionsService.updateTransaction(id, transaction);
         return ResponseEntity.ok(updatedTransaction); // 200 OK
     }
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTransaction(@PathVariable Long id){
+        transactionsService.deleteTransactions(id);
+        return ResponseEntity.noContent().build();
+    }
 
 
 }

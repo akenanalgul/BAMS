@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -24,8 +25,14 @@ public class TransactionsService {
             this.transactionsRepository = transactionsRepository;
             this.modelMapper=modelMapper;
 }
+        public TransactionsDTO convertToDTO(Transactions transactions) {return modelMapper.map(transactions,TransactionsDTO.class);}
+        public Transactions convertToEntity(TransactionsDTO transactionsDTO){return modelMapper.map(transactionsDTO,Transactions.class);}
+
         public Transactions createTransactions(TransactionsDTO transactionsDTO){
-            Transactions transactions=modelMapper.map(transactionsDTO,Transactions.class);
+            Transactions transactions=convertToEntity(transactionsDTO);
+            if(transactions.getCreatedAt()==null){
+                transactions.setCreatedAt(LocalDateTime.now());
+            }
             return transactionsRepository.save(transactions);
         }
         public List<Transactions> getAllTransactions(){
@@ -41,17 +48,13 @@ public class TransactionsService {
         existingTransactions.setTransactionType(updatedTransactions.getTransactionType());
         existingTransactions.setAmount(updatedTransactions.getAmount());
         existingTransactions.setAccount(updatedTransactions.getAccount());
-        existingTransactions.setCreatedAt(updatedTransactions.getCreatedAt());
-
         // Güncellenmiş işlemi kaydet
         return transactionsRepository.save(existingTransactions);
     }
     public void deleteTransactions(Long id){
     transactionsRepository.deleteById(id);
     }
-    public TransactionsDTO convertToDTO(Transactions transactions) {
-        return modelMapper.map(transactions,TransactionsDTO.class);
-    }
+
 
 
 

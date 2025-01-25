@@ -20,14 +20,15 @@ public class Transactions {
     @JoinColumn(name = "account_id",nullable = false)
     private Account account;
 
-    @Column(nullable = false)
+    @Column(name = "transaction_type",nullable = false)
     private String transactionType;
 
-    @Column(nullable = false)
+    @Column(name = "amount",nullable = false)
     private Double amount;
 
-    @Column(nullable = false)
+    @Column(name = "created_at",nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
+
 
     public Long getId(){
         return id;
