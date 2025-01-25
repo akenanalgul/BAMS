@@ -21,50 +21,31 @@ public class AccountController {
 
 
     @PostMapping
-    public ResponseEntity<Account> createAccount(@Valid @RequestBody AccountDTO accountDTO){
+    public ResponseEntity<AccountDTO> createAccount(@Valid @RequestBody AccountDTO accountDTO){
         Account account= accountService.createAccount(accountDTO);
         AccountDTO createdAccount = accountService.convertToDTO(account);
-        return ResponseEntity.ok(accountDTO);
+        return ResponseEntity.ok(createdAccount);
     }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Account> updateAccount(@PathVariable Long id,@RequestBody Account updatedAccount){
-        Account account = accountService.updateAccount(id,updatedAccount);
-        return ResponseEntity.ok(account);
-    }
-    @GetMapping // Fetch all users
-    public ResponseEntity<List<Account>> getAllAccount(){
-        List<Account> accounts=accountService.getAllAccount();
-        return ResponseEntity.ok(accounts);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<AccountDTO> getAccountById(@PathVariable Long id){
         Account account = accountService.getAccountById(id);
         AccountDTO accountDTO = accountService.convertToDTO(account);
         return ResponseEntity.ok(accountDTO);
     }
-
+    @GetMapping // Fetch all users
+    public ResponseEntity<List<Account>> getAllAccount(){
+        List<Account> accounts=accountService.getAllAccount();
+        return ResponseEntity.ok(accounts);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Account> updateAccount(@PathVariable Long id,@RequestBody Account updatedAccount){
+        Account account = accountService.updateAccount(id,updatedAccount);
+        return ResponseEntity.ok(account);
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAccount(@PathVariable Long id){
         accountService.deleteAccount(id);
         return ResponseEntity.noContent().build();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

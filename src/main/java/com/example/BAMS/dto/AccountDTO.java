@@ -3,9 +3,10 @@ package com.example.BAMS.dto;
 import com.example.BAMS.model.Account;
 import com.example.BAMS.model.User;
 
-public class AccountDTO extends Account {
+public class AccountDTO {
 
     private Long id;
+    private String accountNumber;
     private Double balance;
     private User user;
 
@@ -17,11 +18,11 @@ public class AccountDTO extends Account {
 
 
     public String getAccountNumber() {
-        return super.getAccountNumber();
+        return accountNumber;
     }
 
     public void setAccountNumber(String accountNumber) {
-        super.setAccountNumber(accountNumber);
+        this.accountNumber=accountNumber;
     }
 
     public Double getBalance(){
