@@ -24,7 +24,12 @@ public class UserController {
         this.userService=userService;
     }
 
-
+    @PostMapping // Create new user
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO){
+        User user = userService.createUser(userDTO);
+        UserDTO createdUser = userService.convertToDTO(user);
+        return ResponseEntity.ok(createdUser);
+    }
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
@@ -33,12 +38,6 @@ public class UserController {
     }
 
 
-    @PostMapping // Create new user
-    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO){
-        User user = userService.createUser(userDTO);
-        UserDTO createdUser = userService.convertToDTO(user);
-        return ResponseEntity.ok(createdUser);
-    }
     @GetMapping("/test")
     public ResponseEntity<String> getTest(){
         return ResponseEntity.ok("test");
@@ -60,9 +59,5 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
-
-
-
-
 
 }
