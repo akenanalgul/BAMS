@@ -2,9 +2,11 @@ package com.example.BAMS.service;
 
 import com.example.BAMS.dto.AccountDTO;
 import com.example.BAMS.dto.TransactionsDTO;
+import com.example.BAMS.exception.TransactionNotFoundException;
 import com.example.BAMS.model.Account;
 import com.example.BAMS.model.Transactions;
 import com.example.BAMS.repository.TransactionsRepository;
+import jakarta.transaction.TransactionalException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,9 +40,10 @@ public class TransactionsService {
         public List<Transactions> getAllTransactions(){
             return transactionsRepository.findAll();
         }
-        public Transactions getTransactionById(Long id){
-            return transactionsRepository.findById(id).orElseThrow(()->new RuntimeException("Transaction not found!"));
 
+        public Transactions getTransactionById(Long id){
+            return transactionsRepository.findById(id)
+                    .orElseThrow(()->new TransactionNotFoundException("Transaction with ID"+ id +"not found!"));
         }
     public Transactions updateTransaction(Long id, Transactions updatedTransactions) {
         Transactions existingTransactions = getTransactionById(id);

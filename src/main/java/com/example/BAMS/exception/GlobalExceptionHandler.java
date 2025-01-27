@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(AccountNotFoundException.class)
+    @ExceptionHandler(TransactionNotFoundException.class)
     public ResponseEntity<String> handleTransactionNotFoundException(TransactionNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
