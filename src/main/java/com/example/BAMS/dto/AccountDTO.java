@@ -9,6 +9,7 @@ public class AccountDTO {
     private String accountNumber;
     private Double balance;
     private User user;
+    private Double amount;
 
 
     public Long getId(){
@@ -37,4 +38,7 @@ public class AccountDTO {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public Double getAmount(){return amount;}
+    public void setAmount(Double amount){this.amount=amount;}
 }

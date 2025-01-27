@@ -1,13 +1,17 @@
 package com.example.BAMS.service;
 import com.example.BAMS.dto.AccountDTO;
 import com.example.BAMS.dto.UserDTO;
+import com.example.BAMS.exception.AccountNotFoundException;
+import com.example.BAMS.exception.InsufficientFundsException;
 import com.example.BAMS.model.Account;
 import com.example.BAMS.model.User;
 import com.example.BAMS.repository.AccountRepository;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.naming.InsufficientResourcesException;
 import java.util.List;
 
 @Service
@@ -24,12 +28,35 @@ public class AccountService {
         return modelMapper.map(account,AccountDTO.class);
     }
     public Account convertToEntity(AccountDTO accountDTO){return modelMapper.map(accountDTO,Account.class);}
+
+    @Transactional
+    public void withdraw(Long id,double amount){
+        Account account=accountRepository.findById(id).orElseThrow(()->new AccountNotFoundException("Account with ID"+id+"not found!"));
+
+        if (account.getBalance()<amount){
+            throw new InsufficientFundsException("Insufficient balance for withdrawal");
+        }
+        account.setBalance(account.getBalance());
+        accountRepository.save(account);
+    }
+
+
+
+
+
+
+
+
+
     public Account getAccountById(Long id){
-        return accountRepository.findById(id).orElseThrow(()->new RuntimeException("Account not found!"));
+        return accountRepository.findById(id).orElseThrow(()->new AccountNotFoundException("Account with ID"+ id + "not found!"));
     }
 
     public Account createAccount(AccountDTO accountDTO){
         Account account = convertToEntity(accountDTO);
+                if(account.getBalance()<100){
+                    throw new IllegalArgumentException("Minimum balance must be 100");
+                    }
         return accountRepository.save(account);
     }
 

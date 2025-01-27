@@ -26,6 +26,11 @@ public class AccountController {
         AccountDTO createdAccount = accountService.convertToDTO(account);
         return ResponseEntity.ok(createdAccount);
     }
+    @PostMapping("/withdraw/{id}")
+    public ResponseEntity<String> withdraw(@PathVariable Long id,@RequestBody double amount){
+        accountService.withdraw(id,amount);
+        return ResponseEntity.ok("withdrawal successful");
+    }
     @GetMapping("/{id}")
     public ResponseEntity<AccountDTO> getAccountById(@PathVariable Long id){
         Account account = accountService.getAccountById(id);
