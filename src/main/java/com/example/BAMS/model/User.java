@@ -23,6 +23,10 @@ public class User{
     @Column(name = "created_at",nullable = false)
     private LocalDateTime createdAt;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
     public Long getId(){
         return id;
     }
