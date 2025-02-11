@@ -1,7 +1,11 @@
 package com.example.BAMS.model;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
 
 @Entity     // It indicates that this class represents a database table.
 @Table(name = "users")  // It specifies which table in the database this class represents
@@ -27,6 +31,10 @@ public class User{
     @Column(nullable = false)
     private Role role;
 
+
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(() -> role.name());
+    }
     public Long getId(){
         return id;
     }
