@@ -1,0 +1,30 @@
+.home-container {
+    text-align: center;
+    padding: 50px;
+    background-color: #ffffff;
+  }
+  
+  h1 {
+    color: #2c3e50;
+  }
+  
+  p {
+    color: #555;
+    font-size: 18px;
+  }
+  
+  .cta-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+  }
+  
+  .cta-button:hover {
+    background-color: #0056b3;
+  }
+  

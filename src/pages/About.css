@@ -1,0 +1,16 @@
+.about-container {
+    text-align: center;
+    padding: 50px;
+    background-color: #f8f9fa;
+  }
+  
+  h1 {
+    color: #2c3e50;
+  }
+  
+  p {
+    color: #333;
+    font-size: 18px;
+    margin: 10px 0;
+  }
+  
